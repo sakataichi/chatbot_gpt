@@ -23,29 +23,22 @@ if "messages" not in st.session_state:
 
 # チャットボットとやりとりする関数
 def communicate():
-    messages = st.session_state["messages"]
+  messages = st.session_state["messages"]
 
-    user_message = {"role": "user", "content": st.session_state["user_input"]}
-    messages.append(user_message)
+  user_message = {"role": "user", "content": st.session_state["user_input"]}
+  messages.append(user_message)
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )  
+  response = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo",
+      messages=messages
+  )  
 
-    bot_message = response["choices"][0]["message"]
-    messages.append(bot_message)
-
-    st.session_state["user_input"] = ""  # 入力欄を消去
-
-
-    
-# 声変換
-def texttospeech(input_text):
+  bot_message = response["choices"][0]["message"]
+  messages.append(bot_message)
+  st.session_state["user_input"] = ""  # 入力欄を消去
   accesskey = 'TwCIh2tDPWJtujihLZ40paTWM'
   access_secret = 'sJg7bnYeCTraHJlZmerIaepXOihaJvAMjKiZ0eEp'
-
-  text = input_text
+  text = st.session_state["messages"][-1]["content"]
   date: str = str(int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()))
   data: str = json.dumps({
     'coefont': '2b174967-1a8a-42e4-b1ae-5f6548cfa05d',
@@ -67,32 +60,6 @@ def texttospeech(input_text):
     print(response.json())
   st.sidebar.write("声変換完了")
 
-
-
-# ユーザーインターフェイスの構築
-st.title("My AI Assistant")
-st.write("ChatGPT APIを使ったチャットボットです。")
-
-user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
-
-if st.session_state["messages"]:
-    messages = st.session_state["messages"]
-
-    for message in reversed(messages[1:]):  # 直近のメッセージを上に
-        speaker = "🙂"
-        if message["role"]=="assistant":
-            speaker="🤖"
-
-        st.write(speaker + ": " + message["content"])
-
-
-# ---------- サイドバー ----------
-st.sidebar.title("CoeFont")
-
-if st.sidebar.button("声変換", key=0):
-  texttospeech(st.session_state["messages"][-1]["content"])
-  
-if st.sidebar.button("声再生", key=1):
   audio_path1 = 'response.wav' #入力する音声ファイル
 
   audio_placeholder = st.empty()
@@ -112,6 +79,24 @@ if st.sidebar.button("声再生", key=1):
   audio_placeholder.empty()
   time.sleep(0.5) #これがないと上手く再生されません
   audio_placeholder.markdown(audio_html, unsafe_allow_html=True)
+
+
+
+# ユーザーインターフェイスの構築
+st.title("My AI Assistant")
+st.write("ChatGPT APIを使ったチャットボットです。")
+
+user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
+
+if st.session_state["messages"]:
+    messages = st.session_state["messages"]
+
+    for message in reversed(messages[1:]):  # 直近のメッセージを上に
+        speaker = "🙂"
+        if message["role"]=="assistant":
+            speaker="🤖"
+
+        st.write(speaker + ": " + message["content"])
 
         
        
