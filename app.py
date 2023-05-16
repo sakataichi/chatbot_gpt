@@ -58,7 +58,6 @@ def communicate():
       f.write(response.content)
   else:
     print(response.json())
-  st.sidebar.write("声変換完了")
 
   audio_path1 = 'response.wav' #入力する音声ファイル
 
