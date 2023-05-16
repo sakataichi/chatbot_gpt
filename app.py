@@ -87,7 +87,7 @@ if st.session_state["messages"]:
 
 
 # ---------- サイドバー ----------
-st.sidebar.title("st.sidebar")
+st.sidebar.title("CoeFont")
 
 if st.sidebar.button("声変換", key=0):
   texttospeech(st.session_state["messages"][-1]["content"])
