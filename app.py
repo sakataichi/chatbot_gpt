@@ -41,7 +41,7 @@ def communicate():
   text = st.session_state["messages"][-1]["content"]
   date: str = str(int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()))
   data: str = json.dumps({
-    'coefont': '2b174967-1a8a-42e4-b1ae-5f6548cfa05d',
+    'coefont': '7d56e42e-db3d-484c-aaf1-3523e386d3bf',
     'text': text
   })
   signature = hmac.new(bytes(access_secret, 'utf-8'), (date+data).encode('utf-8'), hashlib.sha256).hexdigest()
