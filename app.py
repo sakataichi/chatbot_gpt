@@ -36,8 +36,8 @@ def communicate():
   bot_message = response["choices"][0]["message"]
   messages.append(bot_message)
   st.session_state["user_input"] = ""  # 入力欄を消去
-  accesskey = 'TwCIh2tDPWJtujihLZ40paTWM'
-  access_secret = 'sJg7bnYeCTraHJlZmerIaepXOihaJvAMjKiZ0eEp'
+  accesskey = 'xxx'
+  access_secret = 'xxx'
   text = st.session_state["messages"][-1]["content"]
   date: str = str(int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()))
   data: str = json.dumps({
